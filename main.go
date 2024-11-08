@@ -23,7 +23,7 @@ func main() {
 	clientUseCase := ClientUseCase.NewUseCaseClient(clientRepository)
 	clientRoute.NewClientController(adapter, clientRepository, clientUseCase).Start()
 
-	err = adapter.Listen(":" + loadConfig.HTTP.Port) // Iniciando o servidor
+	err = adapter.Listen(":" + loadConfig.HTTP.Port)
 	if err != nil {
 		fmt.Println(err)
 		return

@@ -23,13 +23,11 @@ type Config struct {
 }
 
 func LoadConfig() Config {
-	// Carregar o arquivo .env
 	err := godotenv.Load()
 	if err != nil {
 		panic("Erro ao carregar o arquivo .env")
 	}
 
-	// Preencher o struct Config com as variáveis de ambiente
 	return Config{
 		Database: DatabaseConfig{
 			URI:      os.Getenv("DATABASE_MONGODB_URI"),
