@@ -2,19 +2,22 @@ package client
 
 import (
 	"encoding/json"
+	"study/domain/dto"
+	"study/domain/factory/client"
 	"study/infra/repository/client"
 )
 
 type UseCase struct {
-	repository client.RepositoryInterface
+	repository    client.RepositoryInterface
+	clientFactory factory.ClientFactory
 }
 
 func NewUseCaseClient(repository client.RepositoryInterface) *UseCase {
-	return &UseCase{repository}
+	return &UseCase{repository: repository, clientFactory: factory.ClientFactory{}}
 }
 
 func (u *UseCase) Find(id string) ([]byte, error) {
-	retFound, err := u.repository.Find("")
+	retFound, err := u.repository.Find(id)
 	if err != nil {
 		return nil, err
 	}
@@ -26,8 +29,9 @@ func (u *UseCase) Find(id string) ([]byte, error) {
 	return marshal, nil
 }
 
-func (u *UseCase) InsertOne(dto client.InsertClient) (bool, error) {
-	_, err := u.repository.InsertOne(dto)
+func (u *UseCase) InsertOne(dto dto.InsertDTO) (bool, error) {
+	insert := u.clientFactory.InsertFactory(dto)
+	_, err := u.repository.InsertOne(insert)
 	if err != nil {
 		return false, err
 	}

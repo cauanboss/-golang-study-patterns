@@ -15,9 +15,8 @@ type MongoDBAdapter struct {
 	collection string
 }
 
-// NewMongoDBAdapter cria um novo adaptador MongoDB com a URL e o nome do banco de dados especificados.
-func NewMongoDBAdapter(uri, dbName string) (*MongoDBAdapter, error) {
-	client, err := createClient(uri)
+func NewMongoDBAdapter(uri string, dbName string, username string, password string) (*MongoDBAdapter, error) {
+	client, err := createClient(uri, username, password)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -29,16 +28,17 @@ func NewMongoDBAdapter(uri, dbName string) (*MongoDBAdapter, error) {
 	}, nil
 }
 
-// createClient conecta ao MongoDB e retorna um cliente.
-func createClient(uri string) (*mongo.Client, error) {
+func createClient(uri string, username string, password string) (*mongo.Client, error) {
+	if username == "" || password == "" || uri == "" {
+		panic("env not found")
+	}
+
 	clientOptions := options.Client().ApplyURI(uri)
-	//if username != "" && password != "" {
 	credential := options.Credential{
-		Username: "root",
-		Password: "example",
+		Username: username,
+		Password: password,
 	}
 	clientOptions.SetAuth(credential)
-	//}
 
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
