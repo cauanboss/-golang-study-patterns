@@ -16,6 +16,6 @@ func NewClientController(adapter *httpServer.Adapter, repository *client.IndexCl
 }
 
 func (c *Controller) Start() {
-	c.Find() // Chamando o método home para definir a rota principal
+	c.Find()
 	c.Insert()
 }

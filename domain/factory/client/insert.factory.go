@@ -5,9 +5,7 @@ import (
 	"study/infra/repository/client"
 )
 
-type ClientFactory struct{}
-
-func (factory ClientFactory) InsertFactory(dto dto.InsertDTO) client.InsertClient {
+func (factory ClientFactory) InsertFactoryFromUseCase(dto dto.InsertDTO) client.InsertClient {
 	return client.InsertClient{
 		Name: dto.Name,
 		Age:  dto.Age,

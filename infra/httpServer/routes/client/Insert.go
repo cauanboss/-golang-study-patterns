@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"study/infra/repository/client"
+	"study/domain/dto"
 )
 
 func (c *Controller) Insert() {
@@ -15,10 +15,10 @@ func (c *Controller) Insert() {
 			w.Write([]byte("Erro"))
 		}
 
-		b := client.InsertClient{
+		b := dto.InsertDTO{
 			Name: "John Doe",
 			Age:  30,
-			Address: client.Address{
+			Address: dto.Address{
 				City:    "New York",
 				Zipcode: "10001",
 			},

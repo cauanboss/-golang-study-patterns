@@ -30,7 +30,7 @@ func (u *UseCase) Find(id string) ([]byte, error) {
 }
 
 func (u *UseCase) InsertOne(dto dto.InsertDTO) (bool, error) {
-	insert := u.clientFactory.InsertFactory(dto)
+	insert := u.clientFactory.InsertFactoryFromUseCase(dto)
 	_, err := u.repository.InsertOne(insert)
 	if err != nil {
 		return false, err
