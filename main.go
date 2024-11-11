@@ -22,7 +22,7 @@ func main() {
 	adapter := httpServer.NewAdapter(server)
 
 	clientUseCase := ClientUseCase.NewUseCaseClient(repositories.Client)
-	clientRoute.NewClientController(adapter, repositories.Client, clientUseCase).Start()
+	clientRoute.NewClientController(adapter, clientUseCase).Start()
 
 	err = adapter.Listen(":" + config.Env.HTTP.Port)
 	if err != nil {
