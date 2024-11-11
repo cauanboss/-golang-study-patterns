@@ -18,10 +18,9 @@ func NewHTTPServer() *HTTPServer {
 // Listen inicia o servidor HTTP na porta especificada.
 func (h *HTTPServer) Listen(port string) error {
 	fmt.Println("HTTPServer Listen")
-	return http.ListenAndServe(port, h.router) // Usando o router diretamente
+	return http.ListenAndServe(port, h.router)
 }
 
-// Handler registra um manipulador para uma rota específica.
 func (h *HTTPServer) Handler(path string, methods string, handle func(w http.ResponseWriter, r *http.Request)) {
 	h.router.HandleFunc(path, handle).Methods(methods)
 }
