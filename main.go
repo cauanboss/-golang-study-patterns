@@ -11,8 +11,8 @@ import (
 )
 
 func main() {
-	config.LoadConfig()
-	mongoAdapter, err := database.NewMongoDBAdapter(config.Env.Database.URI, config.Env.Database.DBName, config.Env.Database.Username, config.Env.Database.Password)
+	env := config.LoadConfig()
+	mongoAdapter, err := database.NewMongoDBAdapter(env.Database.URI, env.Database.DBName, env.Database.Username, env.Database.Password)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -24,7 +24,7 @@ func main() {
 	clientUseCase := ClientUseCase.NewUseCaseClient(repositories.Client)
 	clientRoute.NewClientController(adapter, clientUseCase).Start()
 
-	err = adapter.Listen(":" + config.Env.HTTP.Port)
+	err = adapter.Listen(":" + env.HTTP.Port)
 	if err != nil {
 		fmt.Println(err)
 		return
