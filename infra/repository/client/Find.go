@@ -1,25 +1,22 @@
 package client
 
-import "fmt"
-
-func (client *IndexClient) Find(id string) (interface{}, error) {
-
+func (client *IndexClient) Find(id string) ([]interface{}, error) {
 	if id == "" {
+		// Busca todos os documentos quando o ID não é fornecido
 		all, err := client.db.FindAll(client.collectionName)
-
-		fmt.Println(all, err)
 		if err != nil {
 			return nil, err
 		}
 
 		return all, nil
-
 	}
 
-	one, err := client.db.FindOne(client.collectionName, nil)
+	// Busca um único documento quando o ID é fornecido
+	one, err := client.db.FindOne(client.collectionName, map[string]interface{}{"id": id})
 	if err != nil {
 		return nil, err
 	}
 
-	return one, nil
+	// Retorna o resultado como um slice contendo o único item encontrado
+	return []interface{}{one}, nil
 }

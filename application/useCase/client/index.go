@@ -1,7 +1,7 @@
 package client
 
 import (
-	"encoding/json"
+	"study/domain"
 	"study/domain/dto"
 	"study/domain/factory/client"
 	"study/infra/repository/client"
@@ -16,17 +16,18 @@ func NewUseCaseClient(repository client.RepositoryInterface) *UseCase {
 	return &UseCase{repository: repository, clientFactory: factory.ClientFactory{}}
 }
 
-func (u *UseCase) Find(id string) ([]byte, error) {
+func (u *UseCase) Find(id string) ([]domain.Client, error) {
 	retFound, err := u.repository.Find(id)
 	if err != nil {
 		return nil, err
 	}
 
-	marshal, err := json.Marshal(retFound)
+	r, err := factory.ClientFactory{}.FindAllFactoryFromDB(retFound)
+
 	if err != nil {
-		return nil, err
+		return []domain.Client{}, err
 	}
-	return marshal, nil
+	return r, nil
 }
 
 func (u *UseCase) InsertOne(dto dto.InsertDTO) (bool, error) {
