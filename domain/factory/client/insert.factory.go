@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"study/domain"
 	"study/domain/dto"
-	"study/infra/repository/client"
+	repository "study/infra/repository/client"
 )
 
-func (factory ClientFactory) InsertFactoryFromUseCase(dto dto.InsertDTO) client.Client {
-	return client.Client{
+func (factory ClientFactory) InsertFactoryFromUseCase(dto dto.InsertDTO) repository.Client {
+	return repository.Client{
 		Name: dto.Name,
 		Age:  dto.Age,
-		Address: client.Address{
+		Address: repository.Address{
 			City:    dto.Address.City,
 			Zipcode: dto.Address.Zipcode,
 		},

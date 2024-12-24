@@ -10,12 +10,10 @@ type HTTPServer struct {
 	router *mux.Router
 }
 
-// NewHTTPServer cria uma nova instância de HTTPServer.
 func NewHTTPServer() *HTTPServer {
 	return &HTTPServer{router: mux.NewRouter()}
 }
 
-// Listen inicia o servidor HTTP na porta especificada.
 func (h *HTTPServer) Listen(port string) error {
 	fmt.Println("HTTPServer Listen")
 	return http.ListenAndServe(port, h.router)

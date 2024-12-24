@@ -11,7 +11,6 @@ type LoginUseCase struct {
 	repository  login.RepositoryInterface
 }
 
-// TODO: FAZER DE VERDADE O FIND
 func (uc *LoginUseCase) Login(username, password string) (string, error) {
 	_, err := uc.repository.Find(username)
 	if err != nil {
@@ -25,7 +24,6 @@ func (uc *LoginUseCase) Login(username, password string) (string, error) {
 	return uc.authService.GenerateToken("user.ID")
 }
 
-// TODO: USAR O MAPPING/FACTORY
 func (uc *LoginUseCase) insertOne(username, password string) (bool, error) {
 	hashedPassword, err := uc.hashService.HashPassword(password)
 	if err != nil {

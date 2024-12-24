@@ -12,9 +12,9 @@ import (
 
 func main() {
 	env := config.LoadConfig()
-	mongoAdapter, err := database.NewMongoDBAdapter(env.Database.URI, env.Database.DBName, env.Database.Username, env.Database.Password)
-	if err != nil {
-		fmt.Println(err)
+	mongoAdapter, errDB := database.NewMongoDBAdapter(env.Database.URI, env.Database.DBName, env.Database.Username, env.Database.Password)
+	if errDB != nil {
+		fmt.Println(errDB)
 		return
 	}
 	repositories := repository.NewRepositories(mongoAdapter)
@@ -24,9 +24,9 @@ func main() {
 	clientUseCase := ClientUseCase.NewUseCaseClient(repositories.Client)
 	clientRoute.NewClientController(adapter, clientUseCase).Start()
 
-	err = adapter.Listen(":" + env.HTTP.Port)
-	if err != nil {
-		fmt.Println(err)
+	errListen := adapter.Listen(":" + env.HTTP.Port)
+	if errListen != nil {
+		fmt.Println(errListen)
 		return
 	}
 }
