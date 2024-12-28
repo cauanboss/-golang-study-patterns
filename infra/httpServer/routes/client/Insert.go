@@ -8,16 +8,13 @@ import (
 
 func (c *Controller) Insert() {
 	c.Adapter.Handler("/client", "POST", func(w http.ResponseWriter, r *http.Request) {
-
-		format := r.URL.Query().Get("format") // Ou r.Header.Get("Accept")
+		format := r.URL.Query().Get("format")
 		formatter := c.ChooseFormat(format)
-
 		_, err := json.Marshal(r.Body)
 		if err != nil {
 			http.Error(w, "Erro ao processar a resposta", http.StatusInternalServerError)
 			return
 		}
-
 		b := dto.InsertDTO{
 			Name: "John Doe",
 			Age:  30,
@@ -26,15 +23,12 @@ func (c *Controller) Insert() {
 				Zipcode: "10001",
 			},
 		}
-
 		get, err := c.clientUseCase.InsertOne(b)
-
 		content, contentType, err := formatter.Render(get)
 		if err != nil {
 			http.Error(w, "Erro ao processar a resposta", http.StatusInternalServerError)
 			return
 		}
-
 		w.Header().Set("Content-Type", contentType)
 		w.WriteHeader(http.StatusOK)
 		_, err = w.Write(content)
